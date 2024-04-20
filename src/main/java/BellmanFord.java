@@ -1,4 +1,4 @@
-import java.util.Arrays;
+import java.util.Random;
 
 public class BellmanFord {
     class Edge {
@@ -11,12 +11,24 @@ public class BellmanFord {
     int V, E;
     Edge edge[];
 
+    // Constructor
     BellmanFord(int v, int e) {
         V = v;
         E = e;
         edge = new Edge[e];
-        for (int i=0; i<e; ++i)
-            edge[i] = new Edge();
+        generateEdges();
+    }
+
+    // Generates edges with random weights between -10 and 10
+    private void generateEdges() {
+        Random rand = new Random();
+
+        for (int i = 0; i < E; i++) {
+            edge[i] = new Edge(); // Initialize the Edge object
+            edge[i].src = rand.nextInt(V); // Random source vertex
+            edge[i].dest = rand.nextInt(V); // Random destination vertex
+            edge[i].weight = rand.nextInt(21) - 10; // Random weight between -10 and 10
+        }
     }
 
     void BellmanFord(BellmanFord graph, int src) {
@@ -56,51 +68,10 @@ public class BellmanFord {
     }
 
     public static void main(String[] args) {
-        int V = 5;
-        int E = 8;
+        int V = 1000; // Number of vertices
+        int E = 2000; // Number of edges
 
         BellmanFord graph = new BellmanFord(V, E);
-
-        // add edge 0-1
-        graph.edge[0].src = 0;
-        graph.edge[0].dest = 1;
-        graph.edge[0].weight = -1;
-
-        // add edge 0-2
-        graph.edge[1].src = 0;
-        graph.edge[1].dest = 2;
-        graph.edge[1].weight = 4;
-
-        // add edge 1-2
-        graph.edge[2].src = 1;
-        graph.edge[2].dest = 2;
-        graph.edge[2].weight = 3;
-
-        // add edge 1-3
-        graph.edge[3].src = 1;
-        graph.edge[3].dest = 3;
-        graph.edge[3].weight = 2;
-
-        // add edge 1-4
-        graph.edge[4].src = 1;
-        graph.edge[4].dest = 4;
-        graph.edge[4].weight = 2;
-
-        // add edge 3-2
-        graph.edge[5].src = 3;
-        graph.edge[5].dest = 2;
-        graph.edge[5].weight = 5;
-
-        // add edge 3-1
-        graph.edge[6].src = 3;
-        graph.edge[6].dest = 1;
-        graph.edge[6].weight = 1;
-
-        // add edge 4-3
-        graph.edge[7].src = 4;
-        graph.edge[7].dest = 3;
-        graph.edge[7].weight = -3;
-
         graph.BellmanFord(graph, 0);
     }
 }
